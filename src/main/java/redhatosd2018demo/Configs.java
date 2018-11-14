@@ -2,14 +2,18 @@ package redhatosd2018demo;
 
 import java.util.Properties;
 
+import org.kie.server.api.marshalling.MarshallingFormat;
+
 public class Configs {
+
+    public static final String URL = "http://rhdm7-qlb-loan-kieserver-rhdm7-qlb-loan-developer.192.168.42.85.nip.io/services/rest/server";
+    public static final String USER = "kieserver";
+    public static final String PASSWORD = "kieserver1!";
+    public static final String CONTAINER_ID = "demo20181016_1.0.0";
+    public static final MarshallingFormat FORMAT = MarshallingFormat.JSON;
 
     public static final String TOPIC_1 = "demo20181016-topic1";
     public static final String TOPIC_2 = "demo20181016-topic2";
-
-    private Configs() {
-        // private by intent.
-    }
 
     public static Properties consumerConfig() {
         Properties p = new Properties();
@@ -33,5 +37,9 @@ public class Configs {
         p.put("zookeeper.connect", "localhost:2181");
         p.put("broker.id", "1");
         return p;
+    }
+
+    private Configs() {
+        // private by intent.
     }
 }

@@ -23,7 +23,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNDecisionResult;
 import org.kie.dmn.api.core.DMNResult;
-import org.kie.server.api.marshalling.MarshallingFormat;
 import org.kie.server.api.model.ServiceResponse;
 import org.kie.server.client.DMNServicesClient;
 import org.kie.server.client.KieServicesClient;
@@ -40,19 +39,12 @@ public class Micro2 {
     private ConsumerConnector consumerConnector;
     private KafkaProducer producer;
 
-    private static final String URL = "http://rhdm7-install-kieserver-rhdm7-install-developer.192.168.42.81.nip.io/services/rest/server";
-    private static final String USER = "kieserver";
-    private static final String PASSWORD = "kieserver1!";
-    private static final String CONTAINER_ID = "demo20181016_1.0.0";
-
-    private static final MarshallingFormat FORMAT = MarshallingFormat.JSON;
-
     private KieServicesConfiguration conf;
     private KieServicesClient kieServicesClient;
 
     public void initialize() {
-        conf = KieServicesFactory.newRestConfiguration(URL, USER, PASSWORD);
-        conf.setMarshallingFormat(FORMAT);
+        conf = KieServicesFactory.newRestConfiguration(Configs.URL, Configs.USER, Configs.PASSWORD);
+        conf.setMarshallingFormat(Configs.FORMAT);
         kieServicesClient = KieServicesFactory.newKieServicesClient(conf);
     }
 
@@ -81,7 +73,7 @@ public class Micro2 {
                                                            entry("employed", accountHolder.getBoolean("employed"))));
                     dmnContext.set("Account balance", accountBalance);
 
-                    ServiceResponse<DMNResult> serverResp = dmnClient.evaluateAll(CONTAINER_ID, dmnContext);
+                    ServiceResponse<DMNResult> serverResp = dmnClient.evaluateAll(Configs.CONTAINER_ID, dmnContext);
 
                     DMNResult dmnResult = serverResp.getResult();
 
